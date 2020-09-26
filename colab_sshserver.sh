@@ -7,7 +7,7 @@ export SSH_HOST=${2}
 export SSH_PORT=${3}
 export PUBLIC_KEY="${4} ${5}"
 
-echo ${3}|grep -q 'ssh'
+echo ${4}|grep -q 'ssh'
 if [ $? -eq 1 ]; then
 	echo "Unable to find public key"
 	exit
