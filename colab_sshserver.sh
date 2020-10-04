@@ -1,5 +1,4 @@
 #!/bin/bash
-#!wget -qO- https://pi4.ccc.tc/colab_sshserver.sh | bash -s
 echo "Params = $@"
 
 export SSH_USER=${1}
@@ -23,6 +22,11 @@ echo ${PUBLIC_KEY} >> /root/.ssh/authorized_keys
 
 #安裝網路工具
 apt-get -y install net-tools iputils-ping openssh-server > /dev/null 2>&1 &
+
+#調整opensshd的設定
+sed -i 's/#TCPKeepAlive yes/TCPKeepAlive yes/g' /etc/ssh/sshd_config
+sed -i 's/#ClientAliveInterval 0/ClientAliveInterval 300/g' /etc/ssh/sshd_config
+sed -i 's/#ClientAliveCountMax 3/ClientAliveCountMax 10/g' /etc/ssh/sshd_config
 
 grep -q ${SSH_USER} .colab_ssh_success
 
